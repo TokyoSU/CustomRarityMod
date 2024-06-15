@@ -1,7 +1,7 @@
 Curseforge:
 https://legacy.curseforge.com/minecraft/mc-mods/custom-rarity
 
-- Use the branch to choose what version you want !
+- This version won't be updated yet since IExtensibleEnum is not in the Rarity.class which won't allow me to create new rarity !
 
 Source installation information for modders
 -------------------------------------------
