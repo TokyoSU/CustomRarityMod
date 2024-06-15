@@ -1,3 +1,5 @@
+Curseforge:
+https://legacy.curseforge.com/minecraft/mc-mods/custom-rarity
 
 Source installation information for modders
 -------------------------------------------
