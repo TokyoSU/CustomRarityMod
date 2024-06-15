@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "package": "net.tokyosu.raritymod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "raritymod.refmap.json",
+  "minVersion": "0.8",
+  "client": [
+    "ItemRarityMixin"
+  ]
+}
