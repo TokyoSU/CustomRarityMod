@@ -4,7 +4,9 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
@@ -61,6 +63,10 @@ public class Config
             .defineListAllowEmpty("item_rarity_god_list", Collections.emptyList(), Config::validateItemName);
 
     public static final ForgeConfigSpec CONFIG = BUILDER.build();
+
+    public static void RegisterConfig() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CONFIG);
+    }
 
     public static Set<ResourceLocation> RARITY_COMMON_LIST;
     public static Set<ResourceLocation> RARITY_UNCOMMON_LIST;

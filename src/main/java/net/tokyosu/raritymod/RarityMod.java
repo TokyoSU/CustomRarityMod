@@ -18,14 +18,8 @@ public class RarityMod
 {
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "raritymod";
-    public static final Logger LOGGER = LogUtils.getLogger();
-
     public RarityMod()
     {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.CONFIG);
+        Config.RegisterConfig();
     }
 }
