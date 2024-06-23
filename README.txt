@@ -1,5 +1,5 @@
 Curseforge:
-https://legacy.curseforge.com/minecraft/mc-mods/custom-rarity
+https://curseforge.com/minecraft/mc-mods/custom-rarity
 
 - Use the branch to choose what version you want !
 
