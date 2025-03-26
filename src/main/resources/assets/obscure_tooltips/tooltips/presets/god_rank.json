@@ -1,0 +1,10 @@
+{
+  "priority": 1500,
+  "effects": [ "obscure_tooltips:god_effect" ],
+  "panel": "obscure_tooltips:ap_god",
+  "frame": "obscure_tooltips:ap_god",
+  "icon": "obscure_tooltips:ap_god",
+  "filter": {
+    "rarity": "raritymod.god"
+  }
+}
