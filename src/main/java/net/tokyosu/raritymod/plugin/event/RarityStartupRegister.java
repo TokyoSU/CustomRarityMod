@@ -1,6 +1,6 @@
 package net.tokyosu.raritymod.plugin.event;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 import dev.latvian.mods.kubejs.event.StartupEventJS;
 import dev.latvian.mods.kubejs.typings.Generics;
@@ -12,11 +12,15 @@ import net.minecraft.world.item.Rarity;
 
 public class RarityStartupRegister extends StartupEventJS {
 	@HideFromJS
-	public static final ArrayList<Rarity> RARITY_LIST = new ArrayList<Rarity>();
+	private static final Hashtable<String, Rarity> RARITY_LIST = new Hashtable<>();
 	
 	public RarityStartupRegister() {}
 	public static RarityStartupRegister create() {
 		return new RarityStartupRegister();
+	}
+	
+	public static Rarity getRarity(String rarityName) {
+		return RARITY_LIST.getOrDefault(rarityName, null);
 	}
 
 	@Info(value = "Register a new rarity", params = {
@@ -25,6 +29,6 @@ public class RarityStartupRegister extends StartupEventJS {
     })
     @Generics(value = {String.class, String.class})
 	public void addRarity(String name, String formattingName) {
-		RARITY_LIST.add(Rarity.create(name, ChatFormatting.getByName(formattingName)));
+		RARITY_LIST.putIfAbsent(name, Rarity.create(name, ChatFormatting.getByName(formattingName)));
 	}
 }

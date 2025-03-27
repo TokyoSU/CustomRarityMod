@@ -1,64 +1,39 @@
 package net.tokyosu.raritymod.mixin;
 
-import net.minecraft.resources.ResourceLocation;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.tokyosu.raritymod.plugin.RarityData;
-import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
-import net.tokyosu.raritymod.plugin.event.RarityClientRegister;
-
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import com.mojang.logging.LogUtils;
+import net.tokyosu.raritymod.utils.RarityUtils;
 
 @SuppressWarnings("all")
 @Mixin(ItemStack.class)
 public abstract class ItemRarityMixin {
     @Shadow public abstract Item getItem();
     
-    private @Nullable ResourceLocation getResourceByItem(Item item) {
-    	var items = ForgeRegistries.ITEMS;
-    	if (items.containsValue(item))
-    		return items.getKey(item);
-		return null;
-    }
-    
-    private Rarity getRarityByName(String rarity) {
-    	for (Rarity value : RarityStartupRegister.RARITY_LIST)
-    	{
-    		if (value.name().equalsIgnoreCase(rarity))
-    			return value;
-    	}
-    	return null;
-    }
-    
     @Inject(method = "getRarity", at = @At("RETURN"), cancellable = true)
-    private void changeRarity(CallbackInfoReturnable<Rarity> ci) {
-    	var resourceLoc = getResourceByItem(getItem());
-    	if (resourceLoc == null) // If no resource then return default value !
+    private void changeRarity(CallbackInfoReturnable<Rarity> ci)
+    {
+    	var item = getItem();
+    	var resourceLoc = RarityUtils.getResourceByItem(item);
+    	if (resourceLoc != null)
     	{
-            ci.setReturnValue(ci.getReturnValue());
-    		return;
+    		if (RarityUtils.processItemRarity(ci, item, resourceLoc))
+        		return;
+        	if (RarityUtils.processModRarity(ci, resourceLoc))
+        		return;
     	}
     	
-    	// Search for the correct value.
-    	for (RarityData holder : RarityClientRegister.RARITY_ITEM_LIST) {
-			if (holder.resourceLoc.equals(resourceLoc))
-			{
-				var rarity = getRarityByName(holder.rarityName);
-				ci.setReturnValue(rarity != null ? rarity : ci.getReturnValue()); // If the return is null, make it default value !
-				return;
-			}
-		}
+    	// Check default rarity.
+    	if (RarityUtils.processDefaultRarity(ci))
+    		return;
     	
-        ci.setReturnValue(ci.getReturnValue()); // If nothing is found, return default value !
+    	 // If nothing is found, return default value !
+        ci.setReturnValue(ci.getReturnValue());
     }
 }
