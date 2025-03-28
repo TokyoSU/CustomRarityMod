@@ -10,8 +10,7 @@ import dev.latvian.mods.kubejs.event.EventHandler;
 public interface RarityEventHandler {
     static final Logger LOGGER = LogUtils.getLogger();
 	EventGroup RARITY_EVENTS = EventGroup.of("RarityJSEvents");
-	EventHandler STARTUP_REGISTER = RARITY_EVENTS.startup("startupRegister", () -> RarityStartupRegister.class);
-	EventHandler CLIENT_REGISTER = RARITY_EVENTS.client("clientRegister", () -> RarityClientRegister.class);
+	EventHandler STARTUP_REGISTER = RARITY_EVENTS.startup("register", () -> RarityStartupRegister.class);
 	
 	static void register()
 	{

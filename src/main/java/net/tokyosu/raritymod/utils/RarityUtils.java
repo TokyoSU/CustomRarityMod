@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.tokyosu.raritymod.plugin.event.RarityClientRegister;
 import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
 
 public class RarityUtils
@@ -17,10 +16,10 @@ public class RarityUtils
 	public static boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, Item item, ResourceLocation resource)
 	{
 		var resourceId = resource.toString();
-		if (!RarityClientRegister.isItemSame(resourceId)) // No item registered, return.
+		if (!RarityStartupRegister.isItemSame(resourceId)) // No item registered, return.
 			return false;
 		
-		var rarityId = RarityClientRegister.getItemRarity(resourceId);
+		var rarityId = RarityStartupRegister.getItemRarity(resourceId);
 		if (rarityId == null) // Id is null return.
 			return false;
 		
@@ -42,10 +41,10 @@ public class RarityUtils
 		var itemModId = getModNameByResource(resource);
 		
 		// Now check if a registered modid exist.
-		if (!RarityClientRegister.isModSame(itemModId)) // If false: return, nothing to see.
+		if (!RarityStartupRegister.isModSame(itemModId)) // If false: return, nothing to see.
 			return false;
 		
-		var rarityId = RarityClientRegister.getModRarity(itemModId);
+		var rarityId = RarityStartupRegister.getModRarity(itemModId);
 		if (rarityId == null) // Id is null, return.
 			return false;
 		
@@ -65,7 +64,7 @@ public class RarityUtils
 	public static boolean processDefaultRarity(CallbackInfoReturnable<Rarity> ci)
 	{
 		// If nothing is enabled, just return.
-		var defaultRarity = RarityClientRegister.getDefaultRarityId();
+		var defaultRarity = RarityStartupRegister.getDefaultRarityId();
 		if (defaultRarity == null) // Rarity is empty or not defined return.
 			return false;
 		
