@@ -20,18 +20,21 @@ public abstract class ItemRarityMixin {
     private void changeRarity(CallbackInfoReturnable<Rarity> ci)
     {
     	var item = getItem();
-    	var resourceLoc = RarityUtils.getResourceByItem(item);
-    	if (resourceLoc != null)
+    	if (item != null) // Just to be sure...
     	{
-    		if (RarityUtils.processItemRarity(ci, item, resourceLoc))
-        		return;
-        	if (RarityUtils.processModRarity(ci, resourceLoc))
+    		var resourceLoc = RarityUtils.getResourceByItem(item);
+        	if (resourceLoc != null)
+        	{
+        		if (RarityUtils.processItemRarity(ci, item, resourceLoc))
+            		return;
+            	if (RarityUtils.processModRarity(ci, resourceLoc))
+            		return;
+        	}
+        	
+        	// Check default rarity.
+        	if (RarityUtils.processDefaultRarity(ci))
         		return;
     	}
-    	
-    	// Check default rarity.
-    	if (RarityUtils.processDefaultRarity(ci))
-    		return;
     	
     	 // If nothing is found, return default value !
         ci.setReturnValue(ci.getReturnValue());

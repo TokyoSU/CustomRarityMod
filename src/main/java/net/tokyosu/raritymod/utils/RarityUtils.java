@@ -16,9 +16,7 @@ public class RarityUtils
 	// STEP 1: Process item rarity (top priority !)
 	public static boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, Item item, ResourceLocation resource)
 	{
-		// TODO: need to add variant !
 		var resourceId = resource.toString();
-		
 		if (!RarityClientRegister.isItemSame(resourceId)) // No item registered, return.
 			return false;
 		

@@ -13,7 +13,8 @@ public class RarityClientRegister extends EventJS {
 	private static final Hashtable<String, String> RARITY_ITEM_LIST = new Hashtable<>(); // resourceName, rarityId
 	@HideFromJS
 	private static final Hashtable<String, String> RARITY_MOD_LIST = new Hashtable<>(); // modID, rarityId
-	private static String DefaultRarityName = "common";
+	@HideFromJS
+	private static String DefaultRarityName = null; // Be sure it's null, since processDefaultRarity will return if null else every items will have a default rarity...
 	
 	public static boolean isItemSame(String resourceName) {
 		return RARITY_ITEM_LIST.containsKey(resourceName);
