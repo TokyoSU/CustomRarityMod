@@ -1,14 +1,13 @@
 package net.tokyosu.raritymod.utils;
 
-import javax.annotation.Nullable;
-
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import javax.annotation.Nullable;
 
 public class RarityUtils
 {

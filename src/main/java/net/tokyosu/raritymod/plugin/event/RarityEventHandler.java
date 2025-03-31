@@ -1,11 +1,9 @@
 package net.tokyosu.raritymod.plugin.event;
 
-import org.slf4j.Logger;
-
 import com.mojang.logging.LogUtils;
-
 import dev.latvian.mods.kubejs.event.EventGroup;
 import dev.latvian.mods.kubejs.event.EventHandler;
+import org.slf4j.Logger;
 
 public interface RarityEventHandler {
     static final Logger LOGGER = LogUtils.getLogger();

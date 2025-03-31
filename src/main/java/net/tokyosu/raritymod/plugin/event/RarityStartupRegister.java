@@ -1,7 +1,5 @@
 package net.tokyosu.raritymod.plugin.event;
 
-import java.util.Hashtable;
-
 import dev.latvian.mods.kubejs.event.StartupEventJS;
 import dev.latvian.mods.kubejs.typings.Generics;
 import dev.latvian.mods.kubejs.typings.Info;
@@ -9,6 +7,8 @@ import dev.latvian.mods.kubejs.typings.Param;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Rarity;
+
+import java.util.Hashtable;
 
 public class RarityStartupRegister extends StartupEventJS
 {
