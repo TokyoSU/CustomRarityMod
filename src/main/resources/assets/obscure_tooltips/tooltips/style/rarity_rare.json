@@ -1,0 +1,8 @@
+{
+  "panel": "obscure_tooltips:rare",
+  "frame": "obscure_tooltips:rare",
+  "icon": "obscure_tooltips:rare",
+  "effects": [
+    "obscure_tooltips:rare_ray_glow"
+  ]
+}

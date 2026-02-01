@@ -9,8 +9,6 @@ import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RarityEventSubscriber
 {
-	// Make sure to register rarity event.
-	
     @SubscribeEvent
     static void onCommonSetup(FMLCommonSetupEvent event) {
 		if (RarityEventHandler.STARTUP_REGISTER.hasListeners()) {

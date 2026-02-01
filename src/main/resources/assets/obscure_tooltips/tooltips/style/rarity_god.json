@@ -1,0 +1,12 @@
+{
+  "panel": "obscure_tooltips:god",
+  "frame": "obscure_tooltips:god",
+  "icon": "obscure_tooltips:god",
+  "effects": [
+    "obscure_tooltips:god_ray_glow",
+    "obscure_tooltips:god_icon_particles",
+    "obscure_tooltips:god_shimmer",
+	"obscure_tooltips:god_glint",
+	"obscure_tooltips:god_line_particles"
+  ]
+}

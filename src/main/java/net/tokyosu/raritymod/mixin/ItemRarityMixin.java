@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemStack.class)
 public abstract class ItemRarityMixin {
     @Shadow public abstract Item getItem();
-    
+
     @Inject(method = "getRarity", at = @At("RETURN"), cancellable = true)
     private void changeRarity(CallbackInfoReturnable<Rarity> ci)
     {
@@ -26,10 +26,12 @@ public abstract class ItemRarityMixin {
         	{
         		if (RarityUtils.processItemRarity(ci, item, resourceLoc))
             		return;
+				if (RarityUtils.processTagRarity(ci, item))
+					return;
             	if (RarityUtils.processModRarity(ci, resourceLoc))
             		return;
         	}
-        	
+
         	// Check default rarity.
         	if (RarityUtils.processDefaultRarity(ci))
         		return;

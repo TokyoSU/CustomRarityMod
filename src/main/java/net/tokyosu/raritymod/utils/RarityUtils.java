@@ -2,6 +2,7 @@ package net.tokyosu.raritymod.utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
@@ -33,8 +34,25 @@ public class RarityUtils
 		ci.setReturnValue(rarity);
 		return true; // Everything is good, avoid other process !
 	}
+
+	// STEP 2: Process tag rarity (middle priority !)
+	public static boolean processTagRarity(CallbackInfoReturnable<Rarity> ci, Item item) {
+		var rarityId = RarityStartupRegister.getTagRarity(new ItemStack(item));
+		if (rarityId == null) return false;
+
+		var rarity = RarityStartupRegister.getRarity(rarityId);
+		if (rarity == null)
+		{
+			rarity = getMinecraftRarityByName(rarityId);
+			if (rarity == null) // If even minecraft failed, return.
+				return false;
+		}
+
+		ci.setReturnValue(rarity);
+		return true;
+	}
 	
-	// STEP 2: Process mod rarity (middle priority !)
+	// STEP 3: Process mod rarity (after middle priority !)
 	public static boolean processModRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource)
 	{
 		var itemModId = getModNameByResource(resource);
@@ -59,7 +77,7 @@ public class RarityUtils
 		return true; // Everything is good, avoid other process !
 	}
 	
-	// STEP 3: Process default rarity (lowest priority !)
+	// STEP 4: Process default rarity (lowest priority !)
 	public static boolean processDefaultRarity(CallbackInfoReturnable<Rarity> ci)
 	{
 		// If nothing is enabled, just return.
@@ -87,13 +105,13 @@ public class RarityUtils
 	}
 	
 	public static @Nullable Rarity getMinecraftRarityByName(String name) {
-    	if (name.equalsIgnoreCase("minecraft.common"))
+    	if (name.contains("common"))
     		return Rarity.COMMON;
-    	else if (name.equalsIgnoreCase("minecraft.uncommon"))
+    	else if (name.contains("minecraft.uncommon"))
     		return Rarity.UNCOMMON;
-    	else if (name.equalsIgnoreCase("minecraft.rare"))
+    	else if (name.contains("minecraft.rare"))
     		return Rarity.RARE;
-    	else if (name.equalsIgnoreCase("minecraft.epic"))
+    	else if (name.contains("minecraft.epic"))
     		return Rarity.EPIC;
     	return null;
     }

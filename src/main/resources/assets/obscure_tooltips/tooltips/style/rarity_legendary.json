@@ -1,0 +1,9 @@
+{
+  "panel": "obscure_tooltips:legendary",
+  "frame": "obscure_tooltips:legendary",
+  "icon": "obscure_tooltips:legendary",
+  "effects": [
+    "obscure_tooltips:legendary_ray_glow",
+    "obscure_tooltips:legendary_shimmer"
+  ]
+}

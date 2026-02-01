@@ -1,0 +1,8 @@
+{
+  "type": "obscure_tooltips:shimmer",
+  "inner_color": "#FFFF191D",
+  "accent_color": "#FFFF191D",
+  "outer_color": "#00FF191D",
+  "frequency": 4.0,
+  "speed": 2.0
+}
