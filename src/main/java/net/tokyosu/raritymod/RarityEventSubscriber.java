@@ -3,16 +3,15 @@ package net.tokyosu.raritymod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.tokyosu.raritymod.plugin.event.RarityEventHandler;
+import net.tokyosu.raritymod.plugin.RarityKubeJS;
 import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
 
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class RarityEventSubscriber
-{
+public class RarityEventSubscriber {
     @SubscribeEvent
     static void onCommonSetup(FMLCommonSetupEvent event) {
-		if (RarityEventHandler.STARTUP_REGISTER.hasListeners()) {
-			RarityEventHandler.STARTUP_REGISTER.post(new RarityStartupRegister());
-		}
+        if (RarityKubeJS.STARTUP_REGISTER.hasListeners()) {
+            RarityKubeJS.STARTUP_REGISTER.post(new RarityStartupRegister());
+        }
     }
 }

@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ItemRarityMixin {
     @Shadow public abstract Item getItem();
 
+    /// This override the getRarity function of minecraft to use custom rarity by kubejs.
     @Inject(method = "getRarity", at = @At("RETURN"), cancellable = true)
     private void changeRarity(CallbackInfoReturnable<Rarity> ci)
     {
@@ -24,7 +25,7 @@ public abstract class ItemRarityMixin {
     		var resourceLoc = RarityUtils.getResourceByItem(item);
         	if (resourceLoc != null)
         	{
-        		if (RarityUtils.processItemRarity(ci, item, resourceLoc))
+        		if (RarityUtils.processItemRarity(ci, resourceLoc))
             		return;
 				if (RarityUtils.processTagRarity(ci, item))
 					return;
