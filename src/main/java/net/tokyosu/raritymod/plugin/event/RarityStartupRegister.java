@@ -1,13 +1,23 @@
 package net.tokyosu.raritymod.plugin.event;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.latvian.mods.kubejs.event.StartupEventJS;
 import dev.latvian.mods.kubejs.typings.Generics;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.kubejs.typings.Param;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.tokyosu.raritymod.RarityMod;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
 
@@ -20,14 +30,16 @@ public class RarityStartupRegister extends StartupEventJS
 	@HideFromJS
 	public static final Hashtable<String, String> RARITY_TAG_LIST = new Hashtable<>(); // tagID, rarityId
 	@HideFromJS
+	public static final Hashtable<String, Tuple<CompoundTag, String>> RARITY_NBT_LIST = new Hashtable<>(); // resourceName, Tuple<NBTTag, RarityId>
+	@HideFromJS
 	public static final Hashtable<String, Rarity> RARITY_LIST = new Hashtable<>(); // rarityName, formattingColorName
 	@HideFromJS
 	private static String DEFAULT_RARITY_ID = null;
 
 	/// Does the item id match ? if true then found same item.
 	@HideFromJS
-	public static boolean isItemSame(String resourceName) {
-		return RARITY_ITEM_LIST.containsKey(resourceName);
+	public static boolean isItemNotSame(String resourceName) {
+		return !RARITY_ITEM_LIST.containsKey(resourceName);
 	}
 
 	/// Get the custom rarity of the item by resource name.
@@ -55,17 +67,21 @@ public class RarityStartupRegister extends StartupEventJS
 
 	/// Get custom rarity by tag.
 	@HideFromJS
-	public static String getTagRarity(ItemStack item) {
-		if (item != null)
-		{
-			for (var tag : item.getTags().toList())
-			{
-				var tagKey = tag.location().toString();
-				if (RARITY_TAG_LIST.containsKey(tagKey))
-					return RARITY_TAG_LIST.get(tagKey); // If any tag is the same, return a registered rarity name id.
-			}
-		}
-		return null;
+	public static @Nullable String getTagRarity(ItemStack stack) {
+		if (stack == null) return null;
+		return stack.getTags()
+				.map(TagKey::location)
+				.map(ResourceLocation::toString)
+				.filter(RARITY_TAG_LIST::containsKey)
+				.findFirst()
+				.map(RARITY_TAG_LIST::get)
+				.orElse(null);
+	}
+
+	/// Get custom rarity from item resource name and then by nbt tag.
+	@HideFromJS
+	public static @Nullable Tuple<CompoundTag, String> getNBTRarity(String resourceName) {
+		return RARITY_NBT_LIST.getOrDefault(resourceName, null);
 	}
 
 	/// Get custom rarity from this mod by name id.
@@ -85,7 +101,7 @@ public class RarityStartupRegister extends StartupEventJS
 	}
 
 	/// Set rarity by item resource name, used by kubejs.
-	@Info(value = "Set a rarity to any items", params = {
+	@Info(value = "Set a rarity by resource name.", params = {
             @Param(name = "resourceName", value = "The resource name (example: minecraft:apple)"),
             @Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
     })
@@ -94,17 +110,29 @@ public class RarityStartupRegister extends StartupEventJS
 		RARITY_ITEM_LIST.put(resourceName, rarityName);
 	}
 
+	/// Set rarity by item resource name and nbt tag, used by kubejs.
+	@Info(value = "Set a rarity based on nbt.", params = {
+			@Param(name = "resourceName", value = "The resource name (example: minecraft:apple)"),
+			@Param(name = "nbt", value = "The nbt used."),
+			@Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
+	})
+	@Generics(value = {String.class, String.class, String.class})
+	public void setRarityByNBT(String resourceName, String nbt, String rarityName) throws CommandSyntaxException {
+		RARITY_NBT_LIST.put(resourceName, new Tuple<>(TagParser.parseTag(nbt), rarityName));
+	}
+
 	/// Set rarity by tag id, used by kubejs.
-	@Info(value = "Set a rarity by item tag", params = {
+	@Info(value = "Set a rarity based on item tag.", params = {
 			@Param(name = "tagID", value = "The tag id (example: minecraft:logs)"),
 			@Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
 	})
+	@Generics(value = {String.class, String.class})
 	public void setRarityByTag(String tagID, String rarityName) {
 		RARITY_TAG_LIST.put(tagID, rarityName);
 	}
 
 	/// Set rarity by mod id, used by kubejs.
-	@Info(value = "Set a rarity by mod id", params = {
+	@Info(value = "Set a rarity based on mod id.", params = {
             @Param(name = "modId", value = "The mod id (example: minecraft/avaritia)"),
             @Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
     })

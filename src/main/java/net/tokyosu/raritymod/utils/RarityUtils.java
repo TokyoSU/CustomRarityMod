@@ -1,5 +1,7 @@
 package net.tokyosu.raritymod.utils;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -11,27 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.annotation.Nullable;
 
 public class RarityUtils {
-	/// STEP 1: Process item rarity (top priority !)
-	public static boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource)
-	{
-		var resourceId = resource.toString();
-
-		if (!RarityStartupRegister.isItemSame(resourceId)) // No item registered, return.
-			return false;
-		
-		var rarityId = RarityStartupRegister.getItemRarity(resourceId);
-		if (rarityId == null) return false;
-
-		var rarity = RarityStartupRegister.getRarity(rarityId);
-		if (rarity == null) return false;
-		
-		ci.setReturnValue(rarity);
-		return true; // Everything is good, avoid other process !
-	}
-
-	/// STEP 2: Process tag rarity (middle priority !)
-	public static boolean processTagRarity(CallbackInfoReturnable<Rarity> ci, Item item) {
-		var rarityId = RarityStartupRegister.getTagRarity(new ItemStack(item));
+	/// STEP 1: Process tag rarity.
+	public static boolean processTagRarity(CallbackInfoReturnable<Rarity> ci, ItemStack stack) {
+		var rarityId = RarityStartupRegister.getTagRarity(stack);
 		if (rarityId == null) return false;
 
 		var rarity = RarityStartupRegister.getRarity(rarityId);
@@ -40,8 +24,44 @@ public class RarityUtils {
 		ci.setReturnValue(rarity);
 		return true;
 	}
-	
-	/// STEP 3: Process mod rarity (after middle priority !)
+
+	/// STEP 2: Process nbt rarity.
+	public static boolean processItemNBTRarity(CallbackInfoReturnable<Rarity> ci, ItemStack stack, ResourceLocation resource) {
+		var resourceId = resource.toString();
+		if (RarityStartupRegister.isItemNotSame(resourceId)) // No item registered, return.
+			return false;
+
+		var nbt = RarityStartupRegister.getNBTRarity(resourceId);
+		if (nbt == null) return false;
+
+		if (!stackContainsNBT(stack, nbt.getA()))
+			return false;
+
+		var rarity = RarityStartupRegister.getRarity(nbt.getB());
+		if (rarity == null) return false;
+
+		ci.setReturnValue(rarity);
+		return true; // Everything is good, avoid other process !
+	}
+
+	/// STEP 3: Process item rarity.
+	public static boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource)
+	{
+		var resourceId = resource.toString();
+		if (RarityStartupRegister.isItemNotSame(resourceId)) // No item registered, return.
+			return false;
+
+		var rarityId = RarityStartupRegister.getItemRarity(resourceId);
+		if (rarityId == null) return false;
+
+		var rarity = RarityStartupRegister.getRarity(rarityId);
+		if (rarity == null) return false;
+
+		ci.setReturnValue(rarity);
+		return true; // Everything is good, avoid other process !
+	}
+
+	/// STEP 4: Process mod rarity.
 	public static boolean processModRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource)
 	{
 		var itemModId = getModNameByResource(resource);
@@ -60,7 +80,7 @@ public class RarityUtils {
 		return true; // Everything is good, avoid other process !
 	}
 	
-	/// STEP 4: Process default rarity (lowest priority !)
+	/// STEP 5: Process default rarity.
 	public static boolean processDefaultRarity(CallbackInfoReturnable<Rarity> ci)
 	{
 		// If nothing is enabled, just return.
@@ -104,5 +124,10 @@ public class RarityUtils {
 	/// Get mod name by resource location.
 	public static String getModNameByResource(ResourceLocation location) {
 		return location.getNamespace();
+	}
+
+	private static boolean stackContainsNBT(ItemStack stack, CompoundTag required) {
+		if (!stack.hasTag()) return false;
+		return NbtUtils.compareNbt(required, stack.getTag(), true);
 	}
 }
