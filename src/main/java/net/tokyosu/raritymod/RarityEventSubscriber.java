@@ -9,7 +9,7 @@ import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RarityEventSubscriber {
     @SubscribeEvent
-    static void onCommonSetup(FMLCommonSetupEvent event) {
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
         if (RarityKubeJS.STARTUP_REGISTER.hasListeners()) {
             RarityKubeJS.STARTUP_REGISTER.post(new RarityStartupRegister());
         }

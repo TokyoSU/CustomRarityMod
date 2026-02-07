@@ -94,6 +94,7 @@ dependencies {
     // Required and optionals mods.
     runtimeOnly fg.deobf("curse.maven:obscure-tooltips-715660:7333749")
     runtimeOnly fg.deobf("curse.maven:jei-238222:7391695")
+    implementation fg.deobf("curse.maven:apocalypselib-1455735:7588370")
     implementation fg.deobf("curse.maven:fragmentum-1123970:7533135")
     implementation fg.deobf("curse.maven:kubejs-238086:5853326")
     implementation fg.deobf("curse.maven:rhino-416294:6186971")

@@ -5,6 +5,6 @@
   "refmap": "raritymod.refmap.json",
   "minVersion": "0.8",
   "client": [
-    "ItemRarityMixin"
+    "minecraft.ItemRarityMixin"
   ]
 }
