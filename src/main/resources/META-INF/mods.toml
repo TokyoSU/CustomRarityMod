@@ -14,7 +14,7 @@ license="${mod_license}"
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
-# The modid of the mod
+# The mod of the mod
 modId="${mod_id}" #mandatory
 # The version number of the mod
 version="${mod_version}" #mandatory
@@ -67,7 +67,7 @@ side="BOTH"
 [[dependencies."${mod_id}"]]
 modId = "apocalypselib"
 mandatory = true
-versionRange = "[1.0.1,)"
+versionRange = "[1.1.3,)"
 ordering = "AFTER"
 side = "BOTH"
 

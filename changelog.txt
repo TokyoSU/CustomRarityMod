@@ -150,7 +150,7 @@
  - 47.0.28 Fix not dropping xp for player sourced explosions and various other cases when xp should drop (#9588)
  - 47.0.27 add item handler capability to chiseled bookshelf (#9587)
  - 47.0.26 Fix ignoring maxUpStep method overrides on entities (#9583)
- - 47.0.25 Add missing damage type tag provider modid, existing file helper constructor overload (#9581)
+ - 47.0.25 Add missing damage type tag provider mod, existing file helper constructor overload (#9581)
  - 47.0.24 Expose holder lookup registry provider as a helper in RegistriesDatapackGenerator (#9580)
  - 47.0.23 Fix gametest collection causing secondary crash in loading error state (#9568)
  - 47.0.22 Fix SpriteCoordinateExpander not working with chained methods (MC-263524) (#9564)
@@ -346,7 +346,7 @@
  - 44.1.6  Fire TickEvent.LevelTickEvent on ClientLevel tick (#9299)
  - 44.1.5  Add ClientChatReceivedEvent for system messages (#9284)
  - 44.1.4  PR Action update (#9274)
- - 44.1.3  fix HangingSignEditScreen crash when using custom wood types using modid (#9294)
+ - 44.1.3  fix HangingSignEditScreen crash when using custom wood types using mod (#9294)
  - 44.1.2  Bump SecureJarHandler version, to help identify invalid mods.
  - 44.1.1  [1.19.3] Hotfix missing null check in createUnbakedItemElements (#9285)
  - 44.1.0  Mark 1.19.3 Recommended Build

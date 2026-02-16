@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.tokyosu.apocalypselib.utils.TagUtils;
-import net.tokyosu.raritymod.plugin.event.RarityStartupRegister;
+import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(ItemStack.class)
 public abstract class ItemRarityMixin {
     /// This override the getRarity function of minecraft to use custom rarity by kubejs.
@@ -68,7 +69,7 @@ public abstract class ItemRarityMixin {
 	@Unique
     private boolean processItemNBTRarity(CallbackInfoReturnable<Rarity> ci, ItemStack stack, ResourceLocation resource) {
 		var resourceId = resource.toString();
-		if (RarityStartupRegister.isItemNotSame(resourceId)) // No item registered, return.
+		if (!RarityStartupRegister.isItemNBTFound(resourceId)) // No item registered, return.
 			return false;
 
 		var nbt = RarityStartupRegister.getNBTRarity(resourceId);
@@ -86,8 +87,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 3: Process item rarity.
 	@Unique
-    private boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource)
-	{
+    private boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource) {
 		var resourceId = resource.toString();
 		if (RarityStartupRegister.isItemNotSame(resourceId)) // No item registered, return.
 			return false;

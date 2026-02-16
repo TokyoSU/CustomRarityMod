@@ -1,4 +1,4 @@
-package net.tokyosu.raritymod.plugin.event;
+package net.tokyosu.raritymod.plugin.kubejs.event;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.latvian.mods.kubejs.event.StartupEventJS;
@@ -14,10 +14,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.tokyosu.raritymod.RarityMod;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
 
@@ -57,6 +54,11 @@ public class RarityStartupRegister extends StartupEventJS
 	@HideFromJS
 	public static String getModRarity(String modId) {
 		return RARITY_MOD_LIST.getOrDefault(modId, null);
+	}
+
+	@HideFromJS
+	public static boolean isItemNBTFound(String resourceName) {
+		return RARITY_NBT_LIST.containsKey(resourceName);
 	}
 
 	/// Get default rarity, used by all items if != null.
