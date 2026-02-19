@@ -14,6 +14,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.tokyosu.raritymod.utils.RarityRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Hashtable;

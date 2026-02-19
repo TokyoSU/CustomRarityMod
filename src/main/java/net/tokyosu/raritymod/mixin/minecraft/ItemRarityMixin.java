@@ -5,8 +5,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.tokyosu.apocalypselib.utils.ResourceUtils;
 import net.tokyosu.apocalypselib.utils.TagUtils;
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
+import net.tokyosu.raritymod.utils.RarityRegistry;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,20 +23,17 @@ import javax.annotation.Nullable;
 public abstract class ItemRarityMixin {
     /// This override the getRarity function of minecraft to use custom rarity by kubejs.
     @Inject(method = "getRarity", at = @At("RETURN"), cancellable = true)
-    private void changeRarity(CallbackInfoReturnable<Rarity> ci)
-    {
+    private void changeRarity(CallbackInfoReturnable<Rarity> ci) {
 		var stack = (ItemStack)(Object)this;
 		var item = stack.getItem();
-		if (item == null)
-		{
+		if (item == null) {
 			// If item is null, return default rarity.
 			ci.setReturnValue(ci.getReturnValue());
 			return;
 		}
 
-		var resourceLoc = getResourceByItem(item);
-		if (resourceLoc != null)
-		{
+		var resourceLoc = ResourceUtils.getResourcebyItem(item);
+		if (resourceLoc != null) {
 			if (processTagRarity(ci, stack))
 				return;
 			if (processItemNBTRarity(ci, stack, resourceLoc))
@@ -48,7 +48,7 @@ public abstract class ItemRarityMixin {
 		if (processDefaultRarity(ci))
 			return;
     	
-    	 // If nothing is found, return default value !
+		// If nothing is found, return default value !
         ci.setReturnValue(ci.getReturnValue());
     }
 
@@ -104,8 +104,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 4: Process mod rarity.
 	@Unique
-	private boolean processModRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource)
-	{
+	private boolean processModRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource) {
 		// Now check if a registered mod id exist.
 		var itemModId = resource.getNamespace();
 		if (!RarityStartupRegister.isModSame(itemModId)) // If false: return, nothing to see.
@@ -123,8 +122,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 5: Process default rarity.
 	@Unique
-	private boolean processDefaultRarity(CallbackInfoReturnable<Rarity> ci)
-	{
+	private boolean processDefaultRarity(CallbackInfoReturnable<Rarity> ci) {
 		// If nothing is enabled, just return.
 		var defaultRarity = RarityStartupRegister.getDefaultRarityId();
 		if (defaultRarity == null) // Rarity is empty or not defined return.
@@ -133,35 +131,12 @@ public abstract class ItemRarityMixin {
 		var modrarity = RarityStartupRegister.getRarity(defaultRarity);
 		if (modrarity == null) // If default rarity is null, search for minecraft rarity.
 		{
-			modrarity = getMinecraftRarityByName(defaultRarity);
+			modrarity = RarityRegistry.getMinecraftRarityByName(defaultRarity);
 			if (modrarity == null) // If it's still null then return.
 				return false;
 		}
 
 		ci.setReturnValue(modrarity);
 		return true; // Everything is good, avoid other process !
-	}
-
-	/// Get minecraft rarity by name from kubejs script.
-	@Unique
-	private @Nullable Rarity getMinecraftRarityByName(String name) {
-		if (name.equalsIgnoreCase("minecraft:common"))
-			return Rarity.COMMON;
-		else if (name.equalsIgnoreCase("minecraft:uncommon"))
-			return Rarity.UNCOMMON;
-		else if (name.equalsIgnoreCase("minecraft:rare"))
-			return Rarity.RARE;
-		else if (name.equalsIgnoreCase("minecraft:epic"))
-			return Rarity.EPIC;
-		return null;
-	}
-
-	/// Get resource location by item.
-	@Unique
-    private @Nullable ResourceLocation getResourceByItem(Item item) {
-		var items = ForgeRegistries.ITEMS;
-		if (items.containsValue(item))
-			return items.getKey(item);
-		return null;
 	}
 }

@@ -2,15 +2,15 @@ package net.tokyosu.raritymod.plugin.jei.container;
 
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import net.minecraft.client.renderer.Rect2i;
-import net.tokyosu.raritymod.editor.screen.RarityEditorScreen;
+import net.tokyosu.raritymod.editor.screen.EditorScreen;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IRarityEditorContainerHandler implements IGuiContainerHandler<RarityEditorScreen> {
+public class IRarityEditorContainerHandler implements IGuiContainerHandler<EditorScreen> {
     @Override
-    public @NotNull List<Rect2i> getGuiExtraAreas(@NotNull RarityEditorScreen containerScreen) {
+    public @NotNull List<Rect2i> getGuiExtraAreas(@NotNull EditorScreen containerScreen) {
         List<Rect2i> extraAreas = new ArrayList<>();
         int xPos = containerScreen.getGuiLeft();
         int yPos = containerScreen.getGuiTop();

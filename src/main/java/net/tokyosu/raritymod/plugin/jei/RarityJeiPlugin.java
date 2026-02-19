@@ -8,7 +8,7 @@ import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.config.IJeiConfigManager;
 import net.minecraft.resources.ResourceLocation;
 import net.tokyosu.raritymod.RarityMod;
-import net.tokyosu.raritymod.editor.screen.RarityEditorScreen;
+import net.tokyosu.raritymod.editor.screen.EditorScreen;
 import net.tokyosu.raritymod.plugin.jei.container.IRarityEditorContainerHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,7 +73,7 @@ public class RarityJeiPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {
         IModPlugin.super.registerGuiHandlers(registration);
-        registration.addGuiContainerHandler(RarityEditorScreen.class, new IRarityEditorContainerHandler());
+        registration.addGuiContainerHandler(EditorScreen.class, new IRarityEditorContainerHandler());
     }
 
     @Override

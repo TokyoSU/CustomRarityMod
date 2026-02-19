@@ -3,9 +3,6 @@ package net.tokyosu.raritymod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.tokyosu.raritymod.editor.tab.ModTabCollector;
-import net.tokyosu.raritymod.editor.tab.TabCollector;
 import net.tokyosu.raritymod.plugin.kubejs.RarityKubeJS;
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
 
