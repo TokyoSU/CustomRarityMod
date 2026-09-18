@@ -14,7 +14,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.tokyosu.raritymod.utils.RarityRegistry;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Hashtable;
@@ -31,6 +31,8 @@ public class RarityStartupRegister extends StartupEventJS
 	public static final Hashtable<String, Tuple<CompoundTag, String>> RARITY_NBT_LIST = new Hashtable<>(); // resourceName, Tuple<NBTTag, RarityId>
 	@HideFromJS
 	public static final Hashtable<String, Rarity> RARITY_LIST = new Hashtable<>(); // rarityName, formattingColorName
+    @HideFromJS
+    public static final Hashtable<String, String> RARITY_REPLACE_LIST = new Hashtable<>(); // oldRarity, newRarity
 	@HideFromJS
 	private static String DEFAULT_RARITY_ID = null;
 
@@ -93,6 +95,11 @@ public class RarityStartupRegister extends StartupEventJS
 		return RARITY_LIST.getOrDefault(rarityName, null);
 	}
 
+    /// Get a replaced rarity if oldRarity is valid, if it's not found, return null to avoid replacing the rarity.
+    public static @Nullable String getReplacedRarity(@NotNull String oldRarity) {
+        return RARITY_REPLACE_LIST.getOrDefault(oldRarity, null);
+    }
+
 	/// Register a new rarity, used by kubejs.
 	@Info(value = "Register a new rarity", params = {
             @Param(name = "name", value = "The rarity identifier (example: raritymod.god)"),
@@ -152,4 +159,12 @@ public class RarityStartupRegister extends StartupEventJS
 	public void setDefaultRarity(String rarityName) {
 		DEFAULT_RARITY_ID = rarityName;
 	}
+
+    @Info(value = "Replace a rarity by another rarity (only support minecraft rarity), other mods not supported !", params = {
+            @Param(name = "oldRarity", value = "The rarity you want to replace"),
+            @Param(name = "newRarity", value = "The rarity you want to assign to the replaced rarity")
+    })
+    public void replaceRarityBy(@NotNull String oldRarity, @NotNull String newRarity) {
+        RARITY_REPLACE_LIST.putIfAbsent(oldRarity, newRarity);
+    }
 }

@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 public abstract class ItemRarityMixin {
     /// This override the getRarity function of minecraft to use custom rarity by kubejs.
     @Inject(method = "getRarity", at = @At("RETURN"), cancellable = true)
-    private void changeRarity(CallbackInfoReturnable<Rarity> ci) {
+    private void changeRarity(@NotNull CallbackInfoReturnable<Rarity> ci) {
 		var stack = (ItemStack)(Object)this;
 		var item = stack.getItem();
 		if (item == null) {
@@ -44,6 +44,10 @@ public abstract class ItemRarityMixin {
 				return;
 		}
 
+        // Only minecraft rarity can be replaced.
+        if (processRarityReplacement(ci))
+            return;
+
 		// Check default rarity.
 		if (processDefaultRarity(ci))
 			return;
@@ -54,7 +58,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 1: Process tag rarity.
 	@Unique
-    private boolean processTagRarity(CallbackInfoReturnable<Rarity> ci, ItemStack stack) {
+    private boolean processTagRarity(@NotNull CallbackInfoReturnable<Rarity> ci, @NotNull ItemStack stack) {
 		var rarityId = RarityStartupRegister.getTagRarity(stack);
 		if (rarityId == null) return false;
 
@@ -67,7 +71,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 2: Process nbt rarity.
 	@Unique
-    private boolean processItemNBTRarity(CallbackInfoReturnable<Rarity> ci, ItemStack stack, ResourceLocation resource) {
+    private boolean processItemNBTRarity(@NotNull CallbackInfoReturnable<Rarity> ci, @NotNull ItemStack stack, @NotNull ResourceLocation resource) {
 		var resourceId = resource.toString();
 		if (!RarityStartupRegister.isItemNBTFound(resourceId)) // No item registered, return.
 			return false;
@@ -87,7 +91,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 3: Process item rarity.
 	@Unique
-    private boolean processItemRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource) {
+    private boolean processItemRarity(@NotNull CallbackInfoReturnable<Rarity> ci, @NotNull ResourceLocation resource) {
 		var resourceId = resource.toString();
 		if (RarityStartupRegister.isItemNotSame(resourceId)) // No item registered, return.
 			return false;
@@ -104,7 +108,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 4: Process mod rarity.
 	@Unique
-	private boolean processModRarity(CallbackInfoReturnable<Rarity> ci, ResourceLocation resource) {
+	private boolean processModRarity(@NotNull CallbackInfoReturnable<Rarity> ci, @NotNull ResourceLocation resource) {
 		// Now check if a registered mod id exist.
 		var itemModId = resource.getNamespace();
 		if (!RarityStartupRegister.isModSame(itemModId)) // If false: return, nothing to see.
@@ -122,7 +126,7 @@ public abstract class ItemRarityMixin {
 
 	/// STEP 5: Process default rarity.
 	@Unique
-	private boolean processDefaultRarity(CallbackInfoReturnable<Rarity> ci) {
+	private boolean processDefaultRarity(@NotNull CallbackInfoReturnable<Rarity> ci) {
 		// If nothing is enabled, just return.
 		var defaultRarity = RarityStartupRegister.getDefaultRarityId();
 		if (defaultRarity == null) // Rarity is empty or not defined return.
@@ -139,4 +143,34 @@ public abstract class ItemRarityMixin {
 		ci.setReturnValue(modrarity);
 		return true; // Everything is good, avoid other process !
 	}
+
+    /// Replace an old rarity to a new rarity without replacing other rarity set function and before the default function.
+    @Unique
+    private boolean processRarityReplacement(@NotNull CallbackInfoReturnable<Rarity> ci) {
+        Rarity currentRarity = ci.getReturnValue();
+
+        // IMPORTANT:
+        // Only Minecraft's built-in rarities can be replaced here.
+        String currentRarityId = RarityRegistry.getMinecraftRarityIdByRarity(currentRarity);
+        if (currentRarityId == null)
+            return false;
+
+        String replacementId = RarityStartupRegister.getReplacedRarity(currentRarityId);
+        if (replacementId == null)
+            return false;
+
+        // Custom RarityJS rarity.
+        Rarity replacement = RarityStartupRegister.getRarity(replacementId);
+
+        // Or allow replacement -> Minecraft rarity too.
+        if (replacement == null) {
+            replacement = RarityRegistry.getMinecraftRarityByName(replacementId);
+        }
+
+        if (replacement == null)
+            return false;
+
+        ci.setReturnValue(replacement);
+        return true;
+    }
 }

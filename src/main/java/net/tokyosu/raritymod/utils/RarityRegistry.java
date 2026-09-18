@@ -66,14 +66,13 @@ public class RarityRegistry {
     }
 
     public static @Nullable String getMinecraftRarityIdByRarity(@NotNull Rarity rarity) {
-        var name = rarity.toString();
-        if (name.equalsIgnoreCase("UNCOMMON"))
-            return "minecraft:uncommon";
-        else if (name.equalsIgnoreCase("COMMON"))
+        if (rarity == Rarity.COMMON)
             return "minecraft:common";
-        else if (name.equalsIgnoreCase("RARE"))
+        if (rarity == Rarity.UNCOMMON)
+            return "minecraft:uncommon";
+        if (rarity == Rarity.RARE)
             return "minecraft:rare";
-        else if (name.equalsIgnoreCase("EPIC"))
+        if (rarity == Rarity.EPIC)
             return "minecraft:epic";
         return null;
     }

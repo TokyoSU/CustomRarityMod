@@ -17,9 +17,6 @@ public class RarityMod
         var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         RarityEditor.initialize(modEventBus);
         NetworkHandler.register();
-        BuiltInPackBuilder.resourcePack("packs/rarity_tooltips")
-                .displayName(Component.translatable("rarity.resource_pack.name"))
-                .packSource(PackSource.BUILT_IN)
-                .register(MOD_ID);
+        BuiltInPackBuilder.resourcePack("packs/rarity_tooltips").displayName(Component.translatable("rarity.resource_pack.name")).packSource(PackSource.BUILT_IN).register(MOD_ID);
     }
 }
