@@ -8,7 +8,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.tokyosu.raritymod.editor.RarityEditor;
 import net.tokyosu.raritymod.editor.network.NetworkHandler;
 
-@SuppressWarnings("removal")
+@SuppressWarnings({"removal", "SpellCheckingInspection"})
 @Mod(RarityMod.MOD_ID)
 public class RarityMod
 {

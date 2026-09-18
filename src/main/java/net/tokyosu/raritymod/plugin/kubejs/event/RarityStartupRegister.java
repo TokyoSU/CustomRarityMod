@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Hashtable;
 
+@SuppressWarnings("unused")
 public class RarityStartupRegister extends StartupEventJS
 {
 	@HideFromJS
@@ -38,42 +39,41 @@ public class RarityStartupRegister extends StartupEventJS
 
 	/// Does the item id match ? if true then found same item.
 	@HideFromJS
-	public static boolean isItemNotSame(String resourceName) {
+	public static boolean isItemNotSame(@NotNull String resourceName) {
 		return !RARITY_ITEM_LIST.containsKey(resourceName);
 	}
 
 	/// Get the custom rarity of the item by resource name.
 	@HideFromJS
-	public static String getItemRarity(String resourceName) {
+	public static @Nullable String getItemRarity(@NotNull String resourceName) {
 		return RARITY_ITEM_LIST.getOrDefault(resourceName, null);
 	}
 
 	/// Does a mod id match ? if true then found same mod.
 	@HideFromJS
-	public static boolean isModSame(String modId) {
+	public static boolean isModSame(@NotNull String modId) {
 		return RARITY_MOD_LIST.containsKey(modId);
 	}
 
 	@HideFromJS
-	public static String getModRarity(String modId) {
+	public static @Nullable String getModRarity(@NotNull String modId) {
 		return RARITY_MOD_LIST.getOrDefault(modId, null);
 	}
 
 	@HideFromJS
-	public static boolean isItemNBTFound(String resourceName) {
+	public static boolean isItemNBTFound(@NotNull String resourceName) {
 		return RARITY_NBT_LIST.containsKey(resourceName);
 	}
 
 	/// Get default rarity, used by all items if != null.
 	@HideFromJS
-	public static String getDefaultRarityId() {
+	public static @Nullable String getDefaultRarityId() {
 		return DEFAULT_RARITY_ID;
 	}
 
 	/// Get custom rarity by tag.
 	@HideFromJS
-	public static @Nullable String getTagRarity(ItemStack stack) {
-		if (stack == null) return null;
+	public static @Nullable String getTagRarity(@NotNull ItemStack stack) {
 		return stack.getTags()
 				.map(TagKey::location)
 				.map(ResourceLocation::toString)
@@ -85,13 +85,13 @@ public class RarityStartupRegister extends StartupEventJS
 
 	/// Get custom rarity from item resource name and then by nbt tag.
 	@HideFromJS
-	public static @Nullable Tuple<CompoundTag, String> getNBTRarity(String resourceName) {
+	public static @Nullable Tuple<CompoundTag, String> getNBTRarity(@NotNull String resourceName) {
 		return RARITY_NBT_LIST.getOrDefault(resourceName, null);
 	}
 
 	/// Get custom rarity from this mod by name id.
 	@HideFromJS
-	public static Rarity getRarity(String rarityName) {
+	public static @Nullable Rarity getRarity(@NotNull String rarityName) {
 		return RARITY_LIST.getOrDefault(rarityName, null);
 	}
 
@@ -106,7 +106,7 @@ public class RarityStartupRegister extends StartupEventJS
             @Param(name = "formattingName", value = "The rarity color (example: white)(can found a list here: https://minecraft.fandom.com/wiki/Formatting_codes#Color_codes)")
     })
     @Generics(value = {String.class, String.class})
-	public void addRarity(String name, String formattingName) {
+	public void addRarity(@NotNull String name, @NotNull String formattingName) {
 		RARITY_LIST.putIfAbsent(name, Rarity.create(name, ChatFormatting.getByName(formattingName)));
 	}
 
@@ -116,7 +116,7 @@ public class RarityStartupRegister extends StartupEventJS
             @Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
     })
     @Generics(value = {String.class, String.class})
-	public void setRarity(String resourceName, String rarityName) {
+	public void setRarity(@NotNull String resourceName, @NotNull String rarityName) {
 		RARITY_ITEM_LIST.put(resourceName, rarityName);
 	}
 
@@ -127,7 +127,7 @@ public class RarityStartupRegister extends StartupEventJS
 			@Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
 	})
 	@Generics(value = {String.class, String.class, String.class})
-	public void setRarityByNBT(String resourceName, String nbt, String rarityName) throws CommandSyntaxException {
+	public void setRarityByNBT(@NotNull String resourceName, @NotNull String nbt, @NotNull String rarityName) throws CommandSyntaxException {
 		RARITY_NBT_LIST.put(resourceName, new Tuple<>(TagParser.parseTag(nbt), rarityName));
 	}
 
@@ -137,7 +137,7 @@ public class RarityStartupRegister extends StartupEventJS
 			@Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
 	})
 	@Generics(value = {String.class, String.class})
-	public void setRarityByTag(String tagID, String rarityName) {
+	public void setRarityByTag(@NotNull String tagID, @NotNull String rarityName) {
 		RARITY_TAG_LIST.put(tagID, rarityName);
 	}
 
@@ -147,7 +147,7 @@ public class RarityStartupRegister extends StartupEventJS
             @Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god)")
     })
     @Generics(value = {String.class, String.class})
-	public void setRarityByMod(String modId, String rarityName) {
+	public void setRarityByMod(@NotNull String modId, @NotNull String rarityName) {
 		RARITY_MOD_LIST.putIfAbsent(modId, rarityName);
 	}
 
@@ -156,7 +156,7 @@ public class RarityStartupRegister extends StartupEventJS
             @Param(name = "rarityName", value = "The rarity name you given in addRarity (example: raritymod.god) or minecraft one.")
     })
     @Generics(value = {String.class})
-	public void setDefaultRarity(String rarityName) {
+	public void setDefaultRarity(@NotNull String rarityName) {
 		DEFAULT_RARITY_ID = rarityName;
 	}
 

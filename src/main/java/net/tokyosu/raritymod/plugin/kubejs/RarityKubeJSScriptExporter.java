@@ -1,17 +1,19 @@
 package net.tokyosu.raritymod.plugin.kubejs;
 
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class RarityKubeJSScriptExporter {
     private static final Path KUBEJS_SCRIPTS_DIR = Paths.get("kubejs/startup_scripts");
 
     @SuppressWarnings("CallToPrintStackTrace")
-    public static void exportToJs(String fileName) {
+    public static void exportToJs(@NotNull String fileName) {
         try {
             // Ensure directory exists
             Files.createDirectories(KUBEJS_SCRIPTS_DIR);

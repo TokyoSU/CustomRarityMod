@@ -10,16 +10,17 @@ import net.tokyosu.raritymod.RarityKeybindings;
 import net.tokyosu.raritymod.RarityMod;
 import net.tokyosu.raritymod.editor.RarityEditor;
 import net.tokyosu.raritymod.editor.screen.EditorScreen;
+import org.jetbrains.annotations.NotNull;
 
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModHandler {
     @SubscribeEvent
-    public static void registerKeys(RegisterKeyMappingsEvent event) {
+    public static void registerKeys(@NotNull RegisterKeyMappingsEvent event) {
         event.register(RarityKeybindings.RARITY_EDITOR);
     }
 	
     @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
+    public static void onClientSetup(@NotNull FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             MenuScreens.register(RarityEditor.RARITY_EDITOR_MENU.get(), EditorScreen::new);
         });

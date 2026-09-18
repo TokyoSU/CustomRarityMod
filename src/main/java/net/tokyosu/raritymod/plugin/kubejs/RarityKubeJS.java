@@ -6,6 +6,7 @@ import dev.latvian.mods.kubejs.event.EventHandler;
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
 import net.tokyosu.raritymod.utils.RarityRegistry;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class RarityKubeJS extends KubeJSPlugin {
 	public static EventGroup RARITY_EVENTS = EventGroup.of("RarityJSEvents");
 	public static EventHandler STARTUP_REGISTER = RARITY_EVENTS.startup("register", () -> RarityStartupRegister.class);

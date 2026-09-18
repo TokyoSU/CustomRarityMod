@@ -12,19 +12,20 @@ import net.tokyosu.raritymod.RarityKeybindings;
 import net.tokyosu.raritymod.RarityMod;
 import net.tokyosu.raritymod.editor.network.NetworkHandler;
 import net.tokyosu.raritymod.plugin.kubejs.RarityKubeJSScriptExporter;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeHandler {
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public static void onPlayerTick(@NotNull TickEvent.PlayerTickEvent event) {
         if (RarityKeybindings.RARITY_EDITOR.consumeClick() && event.player != null && event.player.isCreative()) {
             NetworkHandler.sendOpenEditor();
         }
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     @SubscribeEvent
-    public static void onChatCommand(RegisterCommandsEvent event) {
+    public static void onChatCommand(@NotNull RegisterCommandsEvent event) {
         event.getDispatcher().register(
                 Commands.literal("rarityjs").requires(source -> source.hasPermission(1))
                         .then(Commands.literal("export").then(Commands.argument("filename", StringArgumentType.string()).executes(context -> {
