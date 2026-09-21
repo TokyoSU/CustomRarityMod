@@ -17,7 +17,11 @@ public class RarityKubeJSScriptExporter {
         try {
             // Ensure directory exists
             Files.createDirectories(KUBEJS_SCRIPTS_DIR);
-            Path filePath = KUBEJS_SCRIPTS_DIR.resolve(fileName + ".js");
+            Path scriptsDirectory = KUBEJS_SCRIPTS_DIR.toAbsolutePath().normalize();
+            Path filePath = scriptsDirectory.resolve(fileName + ".js").normalize();
+            if (!filePath.startsWith(scriptsDirectory)) {
+                throw new IllegalArgumentException("Filename must resolve inside kubejs/startup_scripts");
+            }
 
             var jsContent = new StringBuilder();
             jsContent.append("// Auto-generated rarity configuration\n");
