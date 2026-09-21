@@ -1,0 +1,22 @@
+{
+  "rarity.raritymod.common.name": "Common",
+  "rarity.raritymod.uncommon.name": "Uncommon",
+  "rarity.raritymod.rare.name": "Rare",
+  "rarity.raritymod.epic.name": "Epic",
+  "rarity.raritymod.legendary.name": "Legendary",
+  "rarity.raritymod.unique.name": "Unique",
+  "rarity.raritymod.mythic.name": "Mythic",
+  "rarity.raritymod.god.name": "God",
+  "raritymod.common": "",
+  "raritymod.uncommon": "",
+  "raritymod.rare": "",
+  "raritymod.epic": "",
+  "raritymod.legendary": "",
+  "raritymod.unique": "",
+  "raritymod.mythic": "",
+  "raritymod.god": "",
+  "rarity.resource_pack.name": "Rarity Tooltips",
+  "menu.rarity_editor": "Rarity Editor",
+  "menu.raritymod.editor.name": "Rarity Editor",
+  "key.open_rarity_editor.name": "Open Rarity Editor"
+}

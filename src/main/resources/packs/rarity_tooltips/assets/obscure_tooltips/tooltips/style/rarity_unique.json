@@ -1,0 +1,9 @@
+{
+  "panel": "obscure_tooltips:unique",
+  "frame": "obscure_tooltips:unique",
+  "icon": "obscure_tooltips:unique",
+  "effects": [
+    "obscure_tooltips:unique_ray_glow",
+    "obscure_tooltips:unique_shimmer"
+  ]
+}

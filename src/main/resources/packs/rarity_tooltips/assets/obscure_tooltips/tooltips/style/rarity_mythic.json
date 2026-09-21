@@ -1,0 +1,11 @@
+{
+  "panel": "obscure_tooltips:mythic",
+  "frame": "obscure_tooltips:mythic",
+  "icon": "obscure_tooltips:mythic",
+  "effects": [
+    "obscure_tooltips:mythic_ray_glow",
+    "obscure_tooltips:mythic_icon_particles",
+    "obscure_tooltips:mythic_shimmer",
+	"obscure_tooltips:mythic_line_particles"
+  ]
+}

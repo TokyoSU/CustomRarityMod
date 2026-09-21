@@ -1,0 +1,16 @@
+{
+  "priority": 0,
+  "provider": {
+    "type": "obscure_tooltips:translatable",
+	"key": "rarity.raritymod.epic.name"
+  },
+  "filter": {
+    "type": "obscure_tooltips:all_of",
+	"terms": [
+		{
+            "type": "obscure_tooltips:rarity",
+            "rarity": "raritymod.epic"
+        }
+	]
+  }
+}

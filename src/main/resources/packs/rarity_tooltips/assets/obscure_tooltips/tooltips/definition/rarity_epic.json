@@ -1,0 +1,13 @@
+{
+  "priority": 100,
+  "style": "obscure_tooltips:rarity_epic",
+  "filter": {
+    "type": "obscure_tooltips:all_of",
+    "terms": [
+      {
+        "type": "obscure_tooltips:rarity",
+        "rarity": "raritymod.epic"
+      }
+    ]
+  }
+}
