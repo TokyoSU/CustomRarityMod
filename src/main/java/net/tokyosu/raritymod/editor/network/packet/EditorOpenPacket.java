@@ -21,7 +21,7 @@ public class EditorOpenPacket {
     public static void handle(@NotNull EditorOpenPacket msg, @NotNull Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
-            if (player != null) {
+            if (player != null && player.isCreative()) {
                 NetworkHooks.openScreen(player, new EditorMenuProvider());
             }
         });
