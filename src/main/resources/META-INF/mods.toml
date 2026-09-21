@@ -25,7 +25,7 @@ displayName="${mod_name}" #mandatory
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="icon.png" #optional
+logoFile="Icon.png" #optional
 # A text field displayed in the mod UI
 credits="forge, poscard8" #optional
 # A text field displayed in the mod UI
@@ -46,14 +46,21 @@ description='''${mod_description}'''
 [[dependencies."${mod_id}"]]
 modId="obscure_tooltips"
 mandatory=false
-versionRange="[3.9.0,)"
+versionRange="[3.10.1,)"
+ordering="AFTER"
+side="CLIENT"
+
+[[dependencies."${mod_id}"]]
+modId="fragmentum"
+mandatory=false
+versionRange="[5.0.0,)"
 ordering="AFTER"
 side="CLIENT"
 
 [[dependencies."${mod_id}"]] #optional
 modId = "kubejs"
 mandatory = true
-versionRange = "[2001.6.5-build.16,)"
+versionRange = "[2001.6.5-build.26,)"
 ordering = "AFTER"
 side = "BOTH"
 

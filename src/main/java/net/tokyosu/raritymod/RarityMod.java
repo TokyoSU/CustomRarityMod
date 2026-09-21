@@ -1,8 +1,11 @@
 package net.tokyosu.raritymod;
 
-import dev.obscuria.fragmentum.packs.BuiltInPackBuilder;
+import dev.obscuria.fragmentum.api.common.resource.BuiltInPacks;
+import dev.obscuria.fragmentum.api.common.resource.SelectionConfig;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.tokyosu.raritymod.editor.RarityEditor;
@@ -17,6 +20,14 @@ public class RarityMod
         var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         RarityEditor.initialize(modEventBus);
         NetworkHandler.register();
-        BuiltInPackBuilder.resourcePack("packs/rarity_tooltips").displayName(Component.translatable("rarity.resource_pack.name")).packSource(PackSource.BUILT_IN).register(MOD_ID);
+        if (ModList.get().isLoaded("fragmentum")) {
+            BuiltInPacks.INSTANCE.createClientResources()
+                    .resourcesFrom(RarityMod.class, MOD_ID)
+                    .selectionConfig(new SelectionConfig(true, Pack.Position.TOP, false))
+                    .directory("packs/rarity_tooltips")
+                    .displayName(Component.translatable("rarity.resource_pack.name"))
+                    .packSource(PackSource.BUILT_IN)
+                    .build();
+        }
     }
 }
