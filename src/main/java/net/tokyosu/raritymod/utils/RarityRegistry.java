@@ -14,7 +14,7 @@ import java.util.Objects;
 public class RarityRegistry {
     /// Register new rarity.
     public static void register(@NotNull String rarityID, @NotNull String chatFormattingID) {
-        if (rarityID.contains("minecraft")) {
+        if (rarityID.startsWith("minecraft:")) {
             RarityStartupRegister.RARITY_LIST.putIfAbsent(rarityID, RarityRegistry.getMinecraftRarityByName(rarityID));
         } else {
             RarityStartupRegister.RARITY_LIST.putIfAbsent(rarityID, Rarity.create(rarityID, ChatFormatting.getByName(chatFormattingID)));
