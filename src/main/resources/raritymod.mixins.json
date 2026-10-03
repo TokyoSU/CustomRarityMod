@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "raritymod.refmap.json",
   "minVersion": "0.8",
-  "client": [
   "mixins": [
     "minecraft.ItemRarityMixin"
   ]

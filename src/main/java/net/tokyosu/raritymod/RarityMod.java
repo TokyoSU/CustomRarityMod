@@ -7,7 +7,7 @@ import net.tokyosu.raritymod.compat.FragmentumCompat;
 import net.tokyosu.raritymod.editor.RarityEditor;
 import net.tokyosu.raritymod.editor.network.NetworkHandler;
 
-@SuppressWarnings({"removal", "SpellCheckingInspection"})
+@SuppressWarnings({"removal"})
 @Mod(RarityMod.MOD_ID)
 public class RarityMod
 {

@@ -7,7 +7,6 @@ import net.minecraft.world.item.Rarity;
 import net.tokyosu.apocalypselib.utils.TagUtils;
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
 import org.jetbrains.annotations.NotNull;
-
 import javax.annotation.Nullable;
 import java.util.Objects;
 
@@ -36,7 +35,6 @@ public class RarityRegistry {
         RarityStartupRegister.RARITY_TAG_LIST.put(tagID, rarityID);
     }
 
-    @SuppressWarnings("CallToPrintStackTrace")
     public static void setNbtRarity(@NotNull String itemId, @NotNull String nbt, @NotNull String rarityID) {
         try {
             RarityStartupRegister.RARITY_NBT_LIST.put(itemId, new Tuple<>(Objects.requireNonNull(TagUtils.stringToNBT(nbt)), rarityID));

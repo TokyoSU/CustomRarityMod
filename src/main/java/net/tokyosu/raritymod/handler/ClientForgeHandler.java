@@ -9,7 +9,6 @@ import net.tokyosu.raritymod.RarityMod;
 import net.tokyosu.raritymod.editor.network.NetworkHandler;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("SpellCheckingInspection")
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeHandler {
     @SubscribeEvent

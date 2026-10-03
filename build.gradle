@@ -59,6 +59,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
@@ -96,7 +97,7 @@ dependencies {
     // Required:
     implementation fg.deobf("curse.maven:obscure-tooltips-715660:8922032")
     implementation fg.deobf("curse.maven:jei-238222:7391695")
-    implementation fg.deobf("curse.maven:apocalypselib-1455735:8910607")
+	implementation fg.deobf("curse.maven:apocalypselib-1455735:9019998")
     implementation fg.deobf("curse.maven:fragmentum-1123970:8921949")
     implementation fg.deobf("curse.maven:kubejs-238086:8020595")
     implementation fg.deobf("curse.maven:rhino-416294:6186971")

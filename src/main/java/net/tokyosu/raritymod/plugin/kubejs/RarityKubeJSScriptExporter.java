@@ -1,28 +1,17 @@
 package net.tokyosu.raritymod.plugin.kubejs;
 
+import net.tokyosu.apocalypselib.utils.FileUtils;
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@SuppressWarnings("SpellCheckingInspection")
 public class RarityKubeJSScriptExporter {
     private static final Path KUBEJS_SCRIPTS_DIR = Paths.get("kubejs/startup_scripts");
 
-    @SuppressWarnings("CallToPrintStackTrace")
     public static void exportToJs(@NotNull String fileName) {
         try {
-            // Ensure directory exists
-            Files.createDirectories(KUBEJS_SCRIPTS_DIR);
-            Path scriptsDirectory = KUBEJS_SCRIPTS_DIR.toAbsolutePath().normalize();
-            Path filePath = scriptsDirectory.resolve(fileName + ".js").normalize();
-            if (!filePath.startsWith(scriptsDirectory)) {
-                throw new IllegalArgumentException("Filename must resolve inside kubejs/startup_scripts");
-            }
-
             var jsContent = new StringBuilder();
             jsContent.append("// Auto-generated rarity configuration\n");
             jsContent.append("// Generated at: ").append(java.time.LocalDateTime.now()).append("\n\n");
@@ -84,7 +73,7 @@ public class RarityKubeJSScriptExporter {
             jsContent.append("});\n");
 
             // Write to file
-            Files.writeString(filePath, jsContent.toString());
+            Path filePath = FileUtils.writeUtf8(KUBEJS_SCRIPTS_DIR, fileName + ".js", jsContent.toString());
             System.out.println("Successfully exported rarity config to: " + filePath);
 
         } catch (IOException e) {

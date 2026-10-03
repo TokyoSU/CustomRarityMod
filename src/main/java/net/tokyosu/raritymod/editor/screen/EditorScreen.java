@@ -1,10 +1,9 @@
 package net.tokyosu.raritymod.editor.screen;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.tokyosu.apocalypselib.client.ContainerScreenBase;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
@@ -19,11 +18,10 @@ import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
 import net.tokyosu.raritymod.utils.RarityRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
-public class EditorScreen extends AbstractContainerScreen<EditorMenu> {
+public class EditorScreen extends ContainerScreenBase<EditorMenu> {
     private DropdownList<Rarity> selector;
     private @Nullable Rect2i selectedRect;
     private ItemStack selectedStack;
@@ -31,10 +29,7 @@ public class EditorScreen extends AbstractContainerScreen<EditorMenu> {
 
     public EditorScreen(@NotNull EditorMenu menu, @NotNull Inventory playerInv, @NotNull Component menuName) {
         super(menu, playerInv, menuName);
-        this.inventoryLabelX = 8000;
-        this.inventoryLabelY = 8000;
-        this.titleLabelX = 8000;
-        this.titleLabelY = 8000;
+        hideLabels();
     }
 
     @Override
@@ -72,7 +67,6 @@ public class EditorScreen extends AbstractContainerScreen<EditorMenu> {
         return Component.literal(value.name()).withStyle(value.getStyleModifier());
     }
 
-    @SuppressWarnings("DataFlowIssue")
     private void onSelectedItem(@NotNull Rarity value) {
         if (this.selectedStack != null) {
             var resource = ResourceUtils.getResourcebyItem(this.selectedStack.getItem());
@@ -123,7 +117,6 @@ public class EditorScreen extends AbstractContainerScreen<EditorMenu> {
         this.renderTooltip(pGui, pMouseX, pMouseY);
     }
 
-    @SuppressWarnings({"NullableProblems", "ConstantValue"})
     @Override
     protected void slotClicked(Slot slot, int slotId, int mouseButton, @NotNull ClickType clickType) { // Slot can be null if clicked outside scope, need to check it.
         super.slotClicked(slot, slotId, mouseButton, clickType);

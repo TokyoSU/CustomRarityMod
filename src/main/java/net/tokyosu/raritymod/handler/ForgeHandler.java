@@ -10,7 +10,6 @@ import net.tokyosu.raritymod.RarityMod;
 import net.tokyosu.raritymod.plugin.kubejs.RarityKubeJSScriptExporter;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("SpellCheckingInspection")
 @Mod.EventBusSubscriber(modid = RarityMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeHandler {
     @SubscribeEvent

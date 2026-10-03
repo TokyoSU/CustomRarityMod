@@ -42,5 +42,4 @@ public class EditorMenu extends MenuBase {
         return this.creativeMenu.stillValid();
     }
 
-
 }

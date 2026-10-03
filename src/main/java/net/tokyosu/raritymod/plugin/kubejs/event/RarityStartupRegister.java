@@ -8,7 +8,7 @@ import dev.latvian.mods.kubejs.typings.Param;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
+import net.tokyosu.apocalypselib.utils.TagUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Tuple;
@@ -16,10 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Hashtable;
 
-@SuppressWarnings("unused")
 public class RarityStartupRegister extends StartupEventJS
 {
 	@HideFromJS
@@ -128,7 +126,7 @@ public class RarityStartupRegister extends StartupEventJS
 	})
 	@Generics(value = {String.class, String.class, String.class})
 	public void setRarityByNBT(@NotNull String resourceName, @NotNull String nbt, @NotNull String rarityName) throws CommandSyntaxException {
-		RARITY_NBT_LIST.put(resourceName, new Tuple<>(TagParser.parseTag(nbt), rarityName));
+		RARITY_NBT_LIST.put(resourceName, new Tuple<>(TagUtils.parseNBT(nbt), rarityName));
 	}
 
 	/// Set rarity by tag id, used by kubejs.

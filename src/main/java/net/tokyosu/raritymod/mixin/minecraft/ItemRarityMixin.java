@@ -1,10 +1,8 @@
 package net.tokyosu.raritymod.mixin.minecraft;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.tokyosu.apocalypselib.utils.ResourceUtils;
 import net.tokyosu.apocalypselib.utils.TagUtils;
 import net.tokyosu.raritymod.plugin.kubejs.event.RarityStartupRegister;
@@ -16,9 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
-
-@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(ItemStack.class)
 public abstract class ItemRarityMixin {
     /// This override the getRarity function of minecraft to use custom rarity by kubejs.
@@ -51,7 +46,7 @@ public abstract class ItemRarityMixin {
 		// Check default rarity.
 		if (processDefaultRarity(ci))
 			return;
-    	
+
 		// If nothing is found, return default value !
         ci.setReturnValue(ci.getReturnValue());
     }
